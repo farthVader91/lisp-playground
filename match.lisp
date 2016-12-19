@@ -21,3 +21,17 @@
 (defun dont-care (e)
     (if (symbolp e) (string= (symbol-name e) #\?) nil)
 )
+
+(defun matchlelt (l1 l2)
+	"Returns T if all elements of L1 are equal to
+         all elements of L2, with the exception of #\?
+         which is treated as a wild-character."
+	(check-type l1 list)
+	(check-type l2 list)
+	(cond ((null l1) (null l2))
+	      ((null l2) nil)
+	      ((or (match:dont-care (first l1))
+		   (match:dont-care (first l2))
+		   (eql (first l1) (first l2)))
+	       (matchlelt (rest l1) (rest l2)))
+	      (t nil)))
