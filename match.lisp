@@ -1,6 +1,7 @@
 (defpackage match
  (:use "COMMON-LISP" "COMMON-LISP-USER")
- (:export :variablep :match-element :dont-care)
+ (:export :variablep :match-element :dont-care :boundp)
+ (:shadow :boundp)
 )
 (in-package "MATCH")
 
@@ -36,4 +37,8 @@
 	       (matchlelt (rest l1) (rest l2)))
 	      (t nil)))
 
-(t)
+(defun boundp (v subs)
+  "Return True if variable V is bound to anything in substitution S."
+  (check-type subs list)
+  (check-type v (satisfies match:variablep))
+  (and (assoc v subs) t))
