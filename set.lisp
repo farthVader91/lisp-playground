@@ -4,8 +4,8 @@
 
 (defpackage set
 	(:use :cl :util)
-	(:export setp set makeset union first rest insert intersection complement subsetp)
-	(:shadow set union first rest insert intersection complement subsetp))
+	(:export setp set makeset union first rest insert intersection complement subsetp equal empty)
+	(:shadow set union first rest insert intersection complement subsetp equal))
 
 (in-package :set)
 
@@ -42,7 +42,7 @@
         "Return the union of 2 sets s1 and s2."
 	(check-type s1 set)
 	(check-type s2 set)
-	(union-unlabelled-sets (cl:rest s1) (cl:rest s2)))
+	(cons :set (union-unlabelled-sets (cl:rest s1) (cl:rest s2))))
 
 (defun first (s)
         "Return the first element listed in a set S."
@@ -52,7 +52,7 @@
 (defun rest (s)
         "Return the rest of the set S without the first element."
 	(check-type s set)
-	(cl:rest (cl:rest s)))
+	(cons :set (cl:rest (cl:rest s))))
 
 (defun insert (e s)
         "Insert an element E into S if it already doesn't exist in S.
@@ -64,7 +64,7 @@
 (defun empty (s)
         "Return True if set S is empty, False otherwise."
 	(check-type s set)
-	(null (rest s)))
+	(null (cl:rest s)))
 
 (defun intersection-unlabelled (s1 s2)
 	(cond ((null s1) '())
@@ -78,7 +78,7 @@
         "Return set of elements that are common across sets S1 and S2."
 	(check-type s1 set)
 	(check-type s2 set)
-	(intersection-unlabelled (cl:rest s1) (cl:rest s2)))
+	(cons :set (intersection-unlabelled (cl:rest s1) (cl:rest s2))))
 
 (defun complement-unlabelled (s1 s2)
         (cond ((null s1) '())
@@ -91,7 +91,7 @@
         "Return set of disjoint elements across sets S1 and S2."
 	(check-type s1 set)
 	(check-type s2 set)
-	(complement-unlabelled (cl:rest s1) (cl:rest s2)))
+	(cons :set (complement-unlabelled (cl:rest s1) (cl:rest s2))))
 
 (defun subsetp-unlabelled (s1 s2)
 	(cond ((null s1) t)
@@ -104,3 +104,10 @@
 	(check-type s1 set)
 	(check-type s2 set)
 	(subsetp-unlabelled (cl:rest s1) (cl:rest s2)))
+
+(defun equal (s1 s2)
+        "Return True if all elements of set S1 are members of set S2,
+         and vice-versa. Return False otherwise."
+	(check-type s1 set)
+	(check-type s2 set)
+	(and (subsetp s1 s2) (subsetp s2 s1)))

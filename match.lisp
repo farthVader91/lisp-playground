@@ -35,3 +35,5 @@
 		   (eql (first l1) (first l2)))
 	       (matchlelt (rest l1) (rest l2)))
 	      (t nil)))
+
+(t)
