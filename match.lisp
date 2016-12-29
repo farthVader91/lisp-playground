@@ -1,6 +1,6 @@
 (defpackage match
  (:use "COMMON-LISP" "COMMON-LISP-USER")
- (:export :variablep :match-element :dont-care :boundp :bound-to)
+ (:export :variablep :match-element :dont-care :boundp :bound-to :match)
  (:shadow :boundp)
 )
 (in-package "MATCH")
@@ -46,3 +46,33 @@
   (check-type subs list)
   (check-type v (satisfies match:variablep))
   (second (assoc v subs)))
+
+(defun match1 (pat lst pairs)
+  (cond ((or (null pat) (null lst))
+	 (cons '(t t) pairs))
+	((variablep (first pat))
+	 (cond ((eql (match:bound-to (first pat) pairs) (first lst))
+		(match1
+		 (rest pat)
+		 (rest lst)
+		 pairs))		
+	       ((eql (match:bound-to (first pat) pairs) nil)
+		(match1
+		 (rest pat)
+		 (rest lst)
+		 (cons (list (first pat) (first lst)) pairs)))))
+	((eql (first pat) (first lst))
+	 (match1 (rest pat) (rest lst) pairs))))
+
+(defun match (pat lst)
+  "Return a substitution - a list of all pairs (V A) where V is a
+   variable in pat and A is the corresponding element in lst. If the
+   nth member of pat is not a variable, it must be eql to the nth
+   member of lst. Otherwise, match should return NIL.  If no element
+   of pat is a variable but each is eql to its corresponding element
+   of lst, match should return ((T T)). If a variable occurs more than
+   once in pat, its corresponding elements in lst must be the same."
+  (check-type pat list)
+  (check-type lst list)
+  (match1 pat lst '()))
+
