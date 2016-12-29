@@ -1,7 +1,7 @@
 (defpackage match
  (:use "COMMON-LISP" "COMMON-LISP-USER")
  (:export :variablep :match-element :dont-care :boundp :bound-to :match)
- (:shadow :boundp)
+ (:shadow :boundp :substitute)
 )
 (in-package "MATCH")
 
@@ -76,3 +76,11 @@
   (check-type lst list)
   (match1 pat lst '()))
 
+(defun substitute (pat subs)
+  "Substitute every occurence of variable V in pat, with it's
+   corresponding occurrence in substition subs."
+  (check-type pat list)
+  (check-type subs list)
+  (if (null pat) '()
+      (cons (match:bound-to (first pat) subs)
+	    (substitute (rest pat) subs))))
