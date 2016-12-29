@@ -1,6 +1,6 @@
 (defpackage calculator
  (:use "COMMON-LISP")
- (:export "COMBINE-EXPR")
+ (:export :combine-expr :enclose-expression)
 )
 
 (in-package "CALCULATOR")
@@ -9,12 +9,9 @@
  (cons (list operator operand (car expr)) (cdr expr))
 )
 
-(defun enclose-expression1 (expr last)
+(defun enclose-expression (expr)
   "Convert an expression in in-fix notation to Cambridge-Prefix
    notation."
   (check-type expr list)
-  (cond ((null expr) 
-    (or
-       (string= (symbol-name (first expr) "+"))
-       (string= (symbol-name (first expr) "-"))
-      )
+  (if (eql 3 (length expr)) (combine-expr (second expr) (first expr) (cons (third expr) nil))
+      (enclose-expression (combine-expr (second expr) (first expr) (cons (third expr) nil)))))
