@@ -1,13 +1,17 @@
 (defpackage match
  (:use "COMMON-LISP" "COMMON-LISP-USER")
- (:export :variablep :match-element :dont-care :boundp)
+ (:export :variablep :match-element :dont-care :boundp :bound-to)
  (:shadow :boundp)
 )
 (in-package "MATCH")
 
 (defun variablep (s)
-  (and (symbolp s) (char= (char (symbol-name s) 0) #\?))
-)
+  (and (symbolp s) (char= (char (symbol-name s) 0) #\?)))
+
+(defun dont-care (e)
+    (if (symbolp e) (string= (symbol-name e) #\?) nil))
+
+
 
 (defun match-element (e1 e2)
  (cond ((and (not (dont-care e1)) (variablep e1))
@@ -15,13 +19,7 @@
        ((and (not (dont-care e2)) (variablep e2))
             (list e2 e1))
        (t
-            (or (eql e1 e2) (or (dont-care e1) (dont-care e2))))
- )
-)
-
-(defun dont-care (e)
-    (if (symbolp e) (string= (symbol-name e) #\?) nil)
-)
+            (or (eql e1 e2) (or (dont-care e1) (dont-care e2))))))
 
 (defun matchlelt (l1 l2)
 	"Returns T if all elements of L1 are equal to
@@ -42,3 +40,9 @@
   (check-type subs list)
   (check-type v (satisfies match:variablep))
   (and (assoc v subs) t))
+
+(defun bound-to (v subs)
+  "Returns the term that the variable V is bound to in substitution S."
+  (check-type subs list)
+  (check-type v (satisfies match:variablep))
+  (second (assoc v subs)))
