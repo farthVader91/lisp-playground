@@ -1,6 +1,6 @@
 (defpackage match
  (:use "COMMON-LISP" "COMMON-LISP-USER")
- (:export :variablep :match-element :dont-care :boundp :bound-to :match)
+ (:export :variablep :match-element :dont-care :boundp :bound-to :match :substitute)
  (:shadow :boundp :substitute)
 )
 (in-package "MATCH")
