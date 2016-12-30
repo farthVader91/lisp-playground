@@ -13,5 +13,6 @@
   "Convert an expression in in-fix notation to Cambridge-Prefix
    notation."
   (check-type expr list)
-  (if (eql 3 (length expr)) (combine-expr (second expr) (first expr) (cons (third expr) nil))
-      (enclose-expression (combine-expr (second expr) (first expr) (cons (third expr) nil)))))
+  (if (null (rest expr)) expr
+      (enclose-expression (combine-expr (second expr) (first expr) (rest (rest expr))))))
+
