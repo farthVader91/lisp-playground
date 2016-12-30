@@ -16,3 +16,13 @@
   (if (null (rest expr)) expr
       (enclose-expression (combine-expr (second expr) (first expr) (rest (rest expr))))))
 
+(defun enclose-term (expr)
+  "Return expr with the first term collected as the first member and
+   expressed in Cambridge Prefix notation."
+  (check-type expr list)
+  (if (or (string= "+" (symbol-name (second expr)))
+	  (string= "-" (symbol-name (second expr))))
+      expr
+      (enclose-term (cons
+		     (first (enclose-expression (list (first expr) (second expr) (third expr))))
+		     (rest (rest (rest expr)))))))
