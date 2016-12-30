@@ -1,6 +1,6 @@
 (defpackage calculator
  (:use "COMMON-LISP")
- (:export :combine-expr :enclose-expression)
+ (:export :combine-expr :enclose-expression :enclose-term)
 )
 
 (in-package "CALCULATOR")
@@ -26,3 +26,14 @@
       (enclose-term (cons
 		     (first (enclose-expression (list (first expr) (second expr) (third expr))))
 		     (rest (rest (rest expr)))))))
+
+(defun enclose-factor (expr)
+  "Return expr with the first factor collected as the first member and
+   expressed in Cambridge Prefix notation."
+  (check-type expr list)
+  (if (or (string= "*" (symbol-name (second expr)))
+	  (string= "/" (symbol-name (second expr))))
+      expr
+      (enclose-factor (cons
+		       (first (enclose-expression (list (first expr) (second expr) (third expr))))
+		       (rest (rest (rest expr)))))))
