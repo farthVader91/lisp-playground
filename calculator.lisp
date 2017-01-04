@@ -1,9 +1,9 @@
 (defpackage calculator
- (:use "COMMON-LISP")
- (:export :combine-expr :enclose-expression :enclose-term :enclose-factor)
+ (:use :cl)
+ (:export combine-expr enclose-expression enclose-term enclose-factor)
 )
 
-(in-package "CALCULATOR")
+(in-package :calculator)
 
 (defun combine-expr (operator operand expr)
  (cons (list operator operand (car expr)) (cdr expr))

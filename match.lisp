@@ -1,9 +1,9 @@
 (defpackage match
  (:use "COMMON-LISP" "COMMON-LISP-USER")
- (:export :variablep :match-element :dont-care :boundp :bound-to :match :substitute)
- (:shadow :boundp :substitute)
+ (:export variablep match-element dont-care boundp bound-to match substitute)
+ (:shadow boundp substitute)
 )
-(in-package "MATCH")
+(in-package :match)
 
 (defun variablep (s)
   (and (symbolp s) (char= (char (symbol-name s) 0) #\?)))

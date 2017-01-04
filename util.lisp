@@ -1,12 +1,12 @@
 (defpackage util
-	(:use :common-lisp)
-	(:export :elementp :element :bag)
+	(:use :cl)
+	(:export elementp element bag)
 )
 
 (in-package :util)
 
 (defun elementp (ele)
-	(or (symbolp ele) (characterp ele) (numberp ele) (packagep ele) (stringp ele))
+	(or (symbolp ele) (characterp ele) (numberp ele) (packagep ele))
 )
 
 (deftype element ()
