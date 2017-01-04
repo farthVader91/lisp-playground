@@ -1,18 +1,18 @@
 (defpackage util
 	(:use :common-lisp)
-	(:export elementp  element bag)
+	(:export :elementp :element :bag)
 )
 
 (in-package :util)
 
-(defun elementp (element)
-	(or (symbolp element) (characterp element) (numberp element) (packagep element))
+(defun elementp (ele)
+	(or (symbolp ele) (characterp ele) (numberp ele) (packagep ele) (stringp ele))
 )
 
 (deftype element ()
 	"Elements are objects testable by EQL,
          namely symbols, characters, numbers and packages."
-	'(satisifies util:elementp))
+	'(satisfies util:elementp))
 
 (deftype bag ()
         "Unordered collection of elements that can be repeated."

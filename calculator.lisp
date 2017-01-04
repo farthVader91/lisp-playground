@@ -1,6 +1,6 @@
 (defpackage calculator
  (:use "COMMON-LISP")
- (:export :combine-expr :enclose-expression :enclose-term)
+ (:export :combine-expr :enclose-expression :enclose-term :enclose-factor)
 )
 
 (in-package "CALCULATOR")
