@@ -1,12 +1,14 @@
-(defpackage :bstree
+(in-package :cl)
+
+(load "util.lisp")
+
+(defpackage bstree
   (:use :cl)
   (:export bstree bstreep insert root left
 	   right member build-from-list inorder)
   (:shadow member))
 
 (in-package :bstree)
-
-(load "util.lisp")
 
 (deftype bstree ()
   "Define the Binary Search Tree type."
