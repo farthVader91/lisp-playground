@@ -1,8 +1,21 @@
 Interactive Lisp Book (Snippets):
 
 9.3 (d) Enter (quote 5e2), ’5e2, and 5e2.
-==============================================================================
-Note that the value of quote is not the S-expression you type for the argument
-as you type it, but the Lisp object represented by that S-expression and it
-is typed back to you in Common Lisp’s choice of printed representation.
-==============================================================================
+=====================================================================
+Note that the value of quote is not the S-expression you type for the
+argument as you type it, but the Lisp object represented by that
+S-expression and it is typed back to you in Common Lisp’s choice of
+printed representation.
+=====================================================================
+
+Trees:
+Are ALWAYS cons's of length 3
+
+Depth calculation:
+If atom, then 0
+else 1 + (maximum depth of all subtrees)
+
+calculating max depth of subtrees:
+treat parameter `tree` as a list.
+recursively strip away each element, while accumulating the maximum depth for `first` element. (Note: we will be calling `depth` for each of the elements here, this results in a cyclic recursive pattern.)
+
