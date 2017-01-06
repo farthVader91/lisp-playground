@@ -77,3 +77,15 @@
       (append
        (inorder (left bst))
        (cons (root bst) (inorder (right bst))))))
+
+(defun depth (tree)
+  "Return the depth of TREE."
+  (if (atom tree) 0
+      (1+ (max-depth-tree tree))))
+
+(defun max-depth-tree (tree)
+  "Return the max depth across each element in TREE."
+  (check-type tree list)
+  (if (null tree) 0
+      (max (depth (first tree))
+	   (max-depth-tree (rest tree)))))
