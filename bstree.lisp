@@ -4,8 +4,8 @@
 
 (defpackage bstree
   (:use :cl)
-  (:export bstree bstreep insert root left
-	   right member build-from-list inorder)
+  (:export bstree bstreep insert root left right
+	   member build-from-list inorder flatten)
   (:shadow member))
 
 (in-package :bstree)
@@ -78,14 +78,21 @@
        (inorder (left bst))
        (cons (root bst) (inorder (right bst))))))
 
-(defun depth (tree)
-  "Return the depth of TREE."
-  (if (atom tree) 0
-      (1+ (max-depth-tree tree))))
-
 (defun max-depth-tree (tree)
   "Return the max depth across each element in TREE."
   (check-type tree list)
   (if (null tree) 0
       (max (depth (first tree))
 	   (max-depth-tree (rest tree)))))
+
+(defun depth (tree)
+  "Return the depth of TREE."
+  (if (atom tree) 0
+      (1+ (max-depth-tree tree))))
+
+(defun flatten (tree)
+  "Return the flattened version of TREE."
+  (typecase (first tree)
+    (null '())
+    (atom (cons (first tree) (flatten (rest tree))))
+    (list (append (flatten (first tree)) (flatten (rest tree))))))
