@@ -5,7 +5,8 @@
 (defpackage bstree
   (:use :cl)
   (:export bstree bstreep insert root left right
-	   member build-from-list inorder flatten)
+	   member build-from-list inorder flatten
+	   flatten2)
   (:shadow member))
 
 (in-package :bstree)
@@ -93,6 +94,15 @@
 (defun flatten (tree)
   "Return the flattened version of TREE."
   (typecase (first tree)
-    (null '())
+    (null (if (eql (rest tree) nil) nil
+	      (flatten (rest tree))))
     (atom (cons (first tree) (flatten (rest tree))))
     (list (append (flatten (first tree)) (flatten (rest tree))))))
+
+(defun flatten2 (tree)
+  "Return the flattened version of TREE."
+  (typecase (first tree)
+    (null (if (eql (rest tree) nil) nil
+	      (cons nil (flatten2 (rest tree)))))
+    (atom (cons (first tree) (flatten2 (rest tree))))
+    (list (append (flatten2 (first tree)) (flatten2 (rest tree))))))
