@@ -48,7 +48,7 @@
   (second (assoc v subs)))
 
 (defun match1 (pat lst pairs)
-  (cond ((or (null pat) (null lst))
+  (cond ((and (null pat) (null lst))
 	 (cons '(t t) pairs))
 	((variablep (first pat))
 	 (cond ((eql (match:bound-to (first pat) pairs) (first lst))
